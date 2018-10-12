@@ -1,11 +1,14 @@
 package com.example.sarah.symbilityintersect;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -29,13 +32,15 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private HearthstoneAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<HearthstoneCard> mCardList;
+    private SearchView mSearchView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -46,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         mCardList = new ArrayList<>();
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://omgvamp-hearthstone-v1.p.mashape.com/cards?attack=4&collectible=1&cost=6";
+        String url = "https://omgvamp-hearthstone-v1.p.mashape.com/cards?attack=4";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -100,6 +105,26 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        mSearchView.setMaxWidth(Integer.MAX_VALUE);
+//
+//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                mAdapter.getFilter().filter(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                mAdapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+
         return true;
     }
 
@@ -111,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
             return true;
         }
 
