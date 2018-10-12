@@ -72,28 +72,32 @@ public class HearthstoneAdapter extends RecyclerView.Adapter<HearthstoneAdapter.
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                ArrayList<HearthstoneCard> cardListFiltered = new ArrayList<>();
+//                ArrayList<HearthstoneCard> cardListFiltered = new ArrayList<>();
                 String charString = charSequence.toString().toLowerCase();
                 if (charString.isEmpty()) {
-                    cardListFiltered = mTotalData;
+                    mDisplayData = mTotalData;
                 }
                 else {
+                    ArrayList<HearthstoneCard> cardListFiltered = new ArrayList<>();
+//                    mDisplayData.clear();
                     for (HearthstoneCard card : mTotalData) {
                         if (card.getName().toLowerCase().contains(charString)) {
                             cardListFiltered.add(card);
                         }
                     }
+                    mDisplayData = cardListFiltered;
                 }
 
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = cardListFiltered;
+                filterResults.values = mDisplayData;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults results) {
-                mDisplayData.clear();
-                mDisplayData.addAll((ArrayList<HearthstoneCard>) results.values);
+//                mDisplayData.clear();
+//                mDisplayData.addAll((ArrayList<HearthstoneCard>) results.values);
+                mDisplayData = (ArrayList<HearthstoneCard>) results.values;
                 notifyDataSetChanged();
             }
         };

@@ -1,6 +1,7 @@
 package com.example.sarah.symbilityintersect;
 
 import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -106,24 +107,27 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        mSearchView.setMaxWidth(Integer.MAX_VALUE);
-//
-//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                mAdapter.getFilter().filter(query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                mAdapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+        if (info != null) {
+            mSearchView.setSearchableInfo(info);
+        }
+        mSearchView.setMaxWidth(Integer.MAX_VALUE);
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         return true;
     }
