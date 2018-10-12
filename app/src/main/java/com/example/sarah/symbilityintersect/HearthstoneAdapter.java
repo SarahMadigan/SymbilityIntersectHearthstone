@@ -1,8 +1,6 @@
 package com.example.sarah.symbilityintersect;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,16 +47,12 @@ public class HearthstoneAdapter extends RecyclerView.Adapter<HearthstoneAdapter.
         ((TextView) holder.hCardView.findViewById(R.id.type)).setText(card.getType());
         ((TextView) holder.hCardView.findViewById(R.id.PlayerClass)).setText(card.getPlayerClass());
         ImageView imageView = ((ImageView) holder.hCardView.findViewById(R.id.image));
-        if (card.getName().equals("Boar")) {
-            Log.e("Test", "Url: " + card.getImgUrl());
-        }
-        if (card.getImgUrl() == null || card.getImgUrl().isEmpty()) {
+
+        if (card.getImgUrl() == null) {
             Picasso.get().load(R.drawable.hearthstone_default);
-//            imageView.setBackgroundResource(R.drawable.hearthstone_default);
         }
         else {
             Picasso.get().load(card.getImgUrl()).placeholder(R.drawable.hearthstone_default).error(R.drawable.hearthstone_default).into(imageView);
-//            ((ImageView) holder.hCardView.findViewById(R.id.image)).setImage
         }
     }
 
@@ -72,14 +66,12 @@ public class HearthstoneAdapter extends RecyclerView.Adapter<HearthstoneAdapter.
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-//                ArrayList<HearthstoneCard> cardListFiltered = new ArrayList<>();
                 String charString = charSequence.toString().toLowerCase();
                 if (charString.isEmpty()) {
                     mDisplayData = mTotalData;
                 }
                 else {
                     ArrayList<HearthstoneCard> cardListFiltered = new ArrayList<>();
-//                    mDisplayData.clear();
                     for (HearthstoneCard card : mTotalData) {
                         if (card.getName().toLowerCase().contains(charString)) {
                             cardListFiltered.add(card);
@@ -95,8 +87,6 @@ public class HearthstoneAdapter extends RecyclerView.Adapter<HearthstoneAdapter.
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults results) {
-//                mDisplayData.clear();
-//                mDisplayData.addAll((ArrayList<HearthstoneCard>) results.values);
                 mDisplayData = (ArrayList<HearthstoneCard>) results.values;
                 notifyDataSetChanged();
             }

@@ -4,15 +4,11 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,7 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
@@ -52,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mCardList = new ArrayList<>();
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://omgvamp-hearthstone-v1.p.mashape.com/cards?attack=4";
+        String url = "https://omgvamp-hearthstone-v1.p.mashape.com/cards";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -60,9 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         mCardList.addAll(HearthstoneCard.parseResponse(response));
-                        Log.e("Main", "Test: " + mCardList.size());
                         mAdapter.notifyDataSetChanged();
-                        Log.e("Main", response.toString().substring(0, 500));
                     }
                 }, new Response.ErrorListener() {
 
@@ -82,24 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         queue.add(jsonObjectRequest);
 
-        int[] data = new int[2];
-        data[0] = 4;
-        data[1] = 5;
-        ArrayList<HearthstoneCard> list = new ArrayList<>();
-        list.add(new HearthstoneCard("Card1", "no", "Enchantment", "Rogue"));
-        list.add(new HearthstoneCard("Card2", "no", "Conjuratiohn", "Wizard"));
-        list.add(new HearthstoneCard("Card3", "no", "Divination", "Warlock"));
         mAdapter = new HearthstoneAdapter(mCardList);
         mRecyclerView.setAdapter(mAdapter);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     @Override

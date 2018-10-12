@@ -14,11 +14,11 @@ import java.util.Iterator;
  */
 
 public class HearthstoneCard {
-    String mName;
-    String mImgUrl;
-    String mType;
+    private String mName;
+    private String mImgUrl;
+    private String mType;
 
-    String mPlayerClass;
+    private String mPlayerClass;
 
     public HearthstoneCard(String name, String imgUrl, String type, String playerClass) {
         mName = name;
@@ -72,7 +72,7 @@ public class HearthstoneCard {
             result = obj.getString(key);
         }
         catch (JSONException e) {
-            result = null;
+            result = "a";
         }
         return result;
     }
